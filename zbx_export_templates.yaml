@@ -1,0 +1,293 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    - uuid: f27a69820dc74a86aba5b2e3863a5e8c
+      name: Konica_template
+  templates:
+    - uuid: df6f2179579e4801a2d431b3ba1ce4df
+      template: KonicaC550i_SNMP
+      name: KonicaC550i_SNMP
+      groups:
+        - name: Konica_template
+      items:
+        - uuid: f8d4e1fcdd364295946250c72e24fe0f
+          name: 'hole-punch scrap box'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.21
+          key: hole_punch_scrap_box
+          value_type: FLOAT
+          valuemap:
+            name: 'hole-punch scrap box'
+          triggers:
+            - uuid: 99f3bfc429d84ea6ab0d56430371f9ef
+              expression: last(/KonicaC550i_SNMP/hole_punch_scrap_box)<>-3
+              name: 'hole-punch scrap box'
+              event_name: 'Опустошите емкость для утиля от дырокола'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: cb9b9489574c488fb89962512e8a1ba7
+          name: error
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.25.3.5.1.2.1
+          key: priner_error
+          valuemap:
+            name: error
+          preprocessing:
+            - type: HEX_TO_DECIMAL
+              parameters:
+                - ''
+          triggers:
+            - uuid: 6de3d0ded409484aa2d65a9c0db0eea2
+              expression: last(/KonicaC550i_SNMP/priner_error)<>0
+              name: error
+              event_name: 'Проверьте состояние МФУ'
+              priority: HIGH
+              manual_close: 'YES'
+        - uuid: 3db22ed7a2894d129ced4b27d4741db7
+          name: location
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.6.0
+          key: printer_location
+          delay: 59m
+          trends: '0'
+          value_type: TEXT
+        - uuid: 81d1362b98a846a9a61ebfbdaf06a245
+          name: model
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.1.0
+          key: printer_model
+          delay: 59m
+          trends: '0'
+          value_type: TEXT
+        - uuid: aa7fcceae6c2436f8c2d0cdab75bbc59
+          name: 'staple cartridge'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.18
+          key: printer_staple_cartridge
+          delay: 5m
+          value_type: FLOAT
+          valuemap:
+            name: 'staple cartridge'
+          triggers:
+            - uuid: 6fbc71ebcccb49139842686594f3d5ee
+              expression: last(/KonicaC550i_SNMP/printer_staple_cartridge)<>-3
+              name: 'staple cartridge'
+              event_name: 'Замените картридж скрепок для брошюрования'
+              priority: HIGH
+              manual_close: 'YES'
+        - uuid: 463c4dbec1bd4355bf4353f8780d8df8
+          name: status
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.25.3.5.1.1.1
+          key: printer_status
+          valuemap:
+            name: status
+        - uuid: f97c7f0b2bf74b978d60694128a4aeeb
+          name: 'waste toner box'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.13
+          key: printer_waste_toner_box
+          value_type: FLOAT
+          valuemap:
+            name: 'waste toner box'
+          triggers:
+            - uuid: a9f5682716b34035a5a988e46b9c9c3d
+              expression: last(/KonicaC550i_SNMP/printer_waste_toner_box)<>-3
+              name: 'waste toner box'
+              event_name: 'Замените бункер сбора отработанного тонера'
+              priority: HIGH
+              manual_close: 'YES'
+        - uuid: 7a98005599694370b1274a18bebd556d
+          name: 'saddle staple cartridge1'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.19
+          key: saddle_staple_cartridge1
+          delay: 5m
+          value_type: FLOAT
+          valuemap:
+            name: 'saddle staple cartridge1'
+          triggers:
+            - uuid: 13e221faac894d7b9e643d2d4d0664c1
+              expression: last(/KonicaC550i_SNMP/saddle_staple_cartridge1)<>-3
+              name: 'saddle staple cartridge1'
+              event_name: 'Замените картридж скрепок для брошюрования'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: d9ddf1df9c94407c855c1eb3d1d87b06
+          name: 'saddle staple cartridge2'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.20
+          key: saddle_staple_cartridge2
+          delay: 5m
+          value_type: FLOAT
+          valuemap:
+            name: 'saddle staple cartridge2'
+          triggers:
+            - uuid: a2b6d619f25d4f1c9af384c05f5b452b
+              expression: last(/KonicaC550i_SNMP/saddle_staple_cartridge2)<>-3
+              name: 'saddle staple cartridge2'
+              event_name: 'Замените картридж скрепок для брошюрования'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: 376294cff10749adb17d8e574ed24fd6
+          name: 'serial number'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.5.1.1.17.1
+          key: serial_number
+          delay: 59m
+          trends: '0'
+          value_type: TEXT
+        - uuid: fd663adcaad34d03b1650faa7c21cc75
+          name: 'toner BLACK'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.4
+          key: toner_BLACK
+          units: '%'
+          triggers:
+            - uuid: db65ae00645b419c8b4b4eacdc92fc4d
+              expression: last(/KonicaC550i_SNMP/toner_BLACK)<=10
+              name: 'toner BLACK'
+              event_name: 'Тонер black осталось менее 10%'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: 85a1067643e64c9bae493efd1025a2be
+          name: 'toner CYAN'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.1
+          key: toner_cyan
+          units: '%'
+          triggers:
+            - uuid: 6cd141f3516147a7ab132e99e5d5d39d
+              expression: last(/KonicaC550i_SNMP/toner_cyan)<=10
+              name: 'toner CYAN'
+              event_name: 'тонер cyan осталось менее 10%'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: 3cac14befcc64ccbad3580560b16699f
+          name: 'toner MAGENTA'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.2
+          key: toner_magenta
+          units: '%'
+          triggers:
+            - uuid: 28d9e3e78f864a8397a8f56fbc17844c
+              expression: last(/KonicaC550i_SNMP/toner_magenta)<=10
+              name: 'toner MAGENTA'
+              event_name: 'Тонер magenta осталось менее 10%'
+              priority: AVERAGE
+              manual_close: 'YES'
+        - uuid: 036cd0db4c554a3695cb304830bffd7d
+          name: 'toner YELLOW'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.43.11.1.1.9.1.3
+          key: toner_yellow
+          units: '%'
+          triggers:
+            - uuid: e09609454c46446eafbea6dd4d336c6d
+              expression: last(/KonicaC550i_SNMP/toner_yellow)<=10
+              name: 'toner YELLOW'
+              event_name: 'Тонер yellow осталось менее 10%'
+              priority: AVERAGE
+              manual_close: 'YES'
+      valuemaps:
+        - uuid: 87f010795c6d4780b96419b910f702f8
+          name: error
+          mappings:
+            - value: '256'
+              newvalue: 'нет бумаги'
+            - value: '512'
+              newvalue: 'низкий уровень тонера'
+            - value: '1024'
+              newvalue: 'нет тонера'
+            - value: '2048'
+              newvalue: 'открыта дверца'
+            - value: '4096'
+              newvalue: 'замятие бумаги'
+            - value: '8192'
+              newvalue: офлайн
+            - value: '16384'
+              newvalue: 'нуждается в обслуживании'
+            - value: '32768'
+              newvalue: 'отсутствует входной лоток'
+            - value: '65536'
+              newvalue: 'отсутствует выходной лоток'
+            - value: '131072'
+              newvalue: 'отсутствует запас маркеров'
+            - value: '524288'
+              newvalue: 'выход полный'
+            - value: '1048576'
+              newvalue: 'входной лоток пуст'
+            - value: '2097152'
+              newvalue: 'просрочено время техническое обслуживание'
+            - value: '41216'
+              newvalue: 'низкий уровень желтого картриджа'
+        - uuid: b3f466e521bb426e8060c2972f447a03
+          name: 'hole-punch scrap box'
+          mappings:
+            - value: '-3'
+              newvalue: Normal
+            - type: GREATER_OR_EQUAL
+              value: '-2'
+              newvalue: 'Clean hole-punch scrap box'
+            - type: LESS_OR_EQUAL
+              value: '-4'
+              newvalue: 'Clean hole-punch scrap box'
+        - uuid: 98bcfe3e4159467bab823bccf1c28ef0
+          name: 'saddle staple cartridge1'
+          mappings:
+            - value: '-3'
+              newvalue: Normal
+            - type: GREATER_OR_EQUAL
+              value: '-2'
+              newvalue: 'Replace saddle staple cartridge1'
+            - type: LESS_OR_EQUAL
+              value: '-4'
+              newvalue: 'Replace saddle staple cartridge1'
+        - uuid: 0e11e8a81f2b4527a02ceb80bc8f35f0
+          name: 'saddle staple cartridge2'
+          mappings:
+            - value: '-3'
+              newvalue: Normal
+            - type: GREATER_OR_EQUAL
+              value: '-2'
+              newvalue: 'Replace saddle staple cartridge2'
+            - type: LESS_OR_EQUAL
+              value: '-4'
+              newvalue: 'Replace saddle staple cartridge2'
+        - uuid: b15535e0e0854e65814357b1f0beade3
+          name: 'staple cartridge'
+          mappings:
+            - value: '-3'
+              newvalue: Normal
+            - type: GREATER_OR_EQUAL
+              value: '-2'
+              newvalue: 'Replace staple cartridge'
+            - type: LESS_OR_EQUAL
+              value: '-4'
+              newvalue: 'Replace staple cartridge'
+        - uuid: 86a8c3003aaf462981fa20c6c99ee6fa
+          name: status
+          mappings:
+            - value: '1'
+              newvalue: Other
+            - value: '2'
+              newvalue: Unknown
+            - value: '3'
+              newvalue: Idle
+            - value: '4'
+              newvalue: Printing
+            - value: '5'
+              newvalue: Warmup
+        - uuid: 0fe44b6d03c24f3db967d1290d21aba6
+          name: 'waste toner box'
+          mappings:
+            - value: '-3'
+              newvalue: Normal
+            - type: GREATER_OR_EQUAL
+              value: '-2'
+              newvalue: 'Replace waste toner box'
+            - type: LESS_OR_EQUAL
+              value: '-4'
+              newvalue: 'Replace waste toner box'
+            - value: '1'
+              newvalue: 'Near full'
